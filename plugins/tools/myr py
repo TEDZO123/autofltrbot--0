@@ -1,0 +1,47 @@
+import os
+from pyrogram import Client, filters 
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+from pyrogram.errors import FloodWait
+from info import AUTH_CHANNEL, LOG_CHANNEL
+
+
+@Client.on_message(filters.media & filters.chat(AUTH_CHANNEL)) #filters.channel)
+async def caption(client, message: Message):
+    C = message.caption #get_file_id(message)
+    await message.edit_caption(f"**__{C}__**\n\n**__Uploaded By : @MovieJunctionGrp__** 🔥",
+          #reply_markup=InlineKeyboardMarkup(
+             # [[
+             # InlineKeyboardButton(f"{BUTTON_TEXT}", url=f"{URL_LINK}")
+             # ]]
+          )#)
+
+@App.on_message(filters.media & filters.chat(ANIME_CHANNEL)) #filters.channel)
+async def caption(client, message: Message):
+    C = message.caption #get_file_id(message)
+    await message.edit_caption(f"**__{C}__**\n**__━━━━━━━━━━━━━━━━━━━━━━\n➠ ɢʀᴏᴜᴘ ➧ @Moviejunction_Group\n➠ ᴄʜᴀɴɴᴇʟ ➧ @Mj_Linkz\n➠ ᴄʜᴀɴɴᴇʟ ➧ @Mj_Animations__**",
+          #reply_markup=InlineKeyboardMarkup(
+             # [[
+             # InlineKeyboardButton(f"{BUTTON_TEXT}", url=f"{URL_LINK}")
+             # ]]
+          )#)
+
+def get_file_id(msg: Message):
+    if msg.media:
+        for message_type in (
+            "photo",
+            "animation",
+            "audio",
+            "document",
+            "video",
+            "video_note",
+            "voice",
+            # "contact",
+            # "dice",
+            # "poll",
+            # "location",
+            # "venue",
+            "sticker"
+        ):
+            obj = getattr(msg, message_type)
+            if obj:
+                return obj, obj.file_id

@@ -269,4 +269,50 @@ async def delallconfirm(client, message):
             ]),
             quote=True
         )
+@Client.on_message(pyrogram.filters.channel)
+def edit_caption(bot, update: pyrogram.types.Message):
+  motech, _ = get_file_details(update)
+  try:
+      try: update.edit(custom_caption.format(file_name=motech.file_name))
+      except pyrogram.errors.FloodWait as FloodWait:
+          asyncio.sleep(FloodWait.value)
+          update.edit(custom_caption.format(file_name=motech.file_name))
+  except pyrogram.errors.MessageNotModified: pass 
+    
+def get_file_details(update: pyrogram.types.Message):
+  if update.media:
+    for message_type in (
+        "photo",
+        "animation",
+        "audio",
+        "document",
+        "video",
+        "video_note",
+        "voice",
+        # "contact",
+        # "dice",
+        # "poll",
+        # "location",
+        # "venue",
+        "sticker"
+    ):
+        obj = getattr(update, message_type)
+        if obj:
+            return obj, obj.file_id
+
+def start_buttons(bot, update):
+  bot = bot.get_me()
+  buttons = [[
+   pyrogram.types.InlineKeyboardButton("Updates", url="t.me/tzobotz"),
+   pyrogram.types.InlineKeyboardButton("About 🤠", callback_data="about")
+   ],[
+   pyrogram.types.InlineKeyboardButton("➕️ Add To Your Channel ➕️", url=f"http://t.me/{bot.username}?startchannel=true")
+   ]]
+  return pyrogram.types.InlineKeyboardMarkup(buttons)
+
+def about_buttons(bot, update):
+  buttons = [[
+   pyrogram.types.InlineKeyboardButton("🏠 Back To Home 🏠", callback_data="start")
+   ]]
+  return pyrogram.types.InlineKeyboardMarkup(buttons)
 

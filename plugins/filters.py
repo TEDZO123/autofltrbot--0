@@ -11,7 +11,8 @@ from database.filters_mdb import(
 
 from database.connections_mdb import active_connection
 from utils import get_file_id, parser, split_quotes
-from info import ADMINS
+from info import ADMINS, CHANNEL_CAP
+custom_caption=CHANNEL_CAP
 
 
 @Client.on_message(filters.command(['filter', 'add']) & filters.incoming)
